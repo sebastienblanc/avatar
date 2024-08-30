@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Avatar Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #chatBox {
+            width: 60%;
+            height: 70%;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        #messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .message {
+            margin-bottom: 20px;
+        }
+        .avatar-name {
+            font-weight: bold;
+        }
+        #inputBox {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #eee;
+        }
+        #inputBox input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-right: 10px;
+        }
+        #inputBox button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="chatBox">
+        <div id="messages"></div>
+        <div id="inputBox">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.55.2/phaser.min.js"></script>
+    <script>
+        var config = {
+            type: Phaser.AUTO,
+            parent: 'messages',
+            width: 800,
+            height: 600,
+            scene: {
+                preload: preload,
+                create: create
+            }
+        };
+
+        var game = new Phaser.Game(config);
+
+        function preload () {
+            this.load.image('background', 'assets/chat-background.png');
+        }
+
+        function create () {
+            this.add.image(400, 300, 'background');
+            var messageForm = document.getElementById('inputBox');
+            var messageInput = document.getElementById('messageInput');
+            var sendButton = document.getElementById('sendButton');
+            var messagesDiv = document.getElementById('messages');
+            var self = this;
+
+            sendButton.onclick = function () {
+                var message = messageInput.value;
+                if (message) {
+                    var text = self.add.text(10, 10, message, { fill: '#0f0' });
+                    messagesDiv.appendChild(text);
+                    messageInput.value = '';
+                }
+            };
+        }
+    </script>
+</body>
+</html>
